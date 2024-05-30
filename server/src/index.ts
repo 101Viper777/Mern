@@ -1,3 +1,5 @@
+import { config } from "dotenv";
+config(); // to read the .env file
 import express, { Request, Response } from "express";
 import mongoose from "mongoose";
 import Deck from "./models/Deck";
@@ -23,11 +25,8 @@ app.get("/", (req: Request, res: Response) => {
   res.send("yooo wassup ");
 });
 
-mongoose
-  .connect(
-    "mongodb+srv://abdulazizelsabbagh79:z1j8wnP35TwSQYbO@cluster0.ytq6uck.mongodb.net/"
-  )
-  .then(() => {
-    app.listen(Port);
-    console.log(`Mongo is up & Server is running on port ${Port}`);
-  });
+mongoose.connect(process.env.MONGO_URL!).then(() => {
+  // exclamation mark to tell typescript that it is not null
+  app.listen(Port);
+  console.log(`Mongo is up & Server is running on port ${Port}`);
+});
