@@ -3,15 +3,22 @@ config(); // to read the .env file
 import express, { Request, Response } from "express";
 import mongoose from "mongoose";
 import Deck from "./models/Deck";
-
+import cors from "cors";
 const Port = 3500;
 const app = express();
-
+app.use(cors());
 app.use(express.json());
 //express middleware function to tell express that packets are in json format
+
+app.get("/decks", async (req: Request, res: Response) => {
+  const decks = await Deck.find();
+  console.log(decks);
+  res.json(decks);
+});
+
 // ---//
 app.post("/decks", async (req: Request, res: Response) => {
-  console.log(req.body);
+  console.log(req.body.title);
   const newDeck = new Deck({
     title: req.body.title,
   });
