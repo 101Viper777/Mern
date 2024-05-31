@@ -1,39 +1,56 @@
 import React, { useEffect, useState } from "react";
 import "./App.css";
-
-type TDeck = {
-  _id: string;
-  title: string;
-};
+import { Link } from "react-router-dom";
+import { deleteDeck } from "./api/deleteDeck";
+import { TDeck, getDecks } from "./api/getDecks";
+import { get } from "http";
+import { createDeck } from "./api/createDeck";
+import { deleteAllDecks } from "./api/deleteAllDecks";
 
 function App() {
   const [title, setTitle] = useState("");
   const [decks, setDecks] = useState<TDeck[]>([]);
 
+  async function handleDeleteDeck() {
+    {
+      await deleteAllDecks();
+      setDecks([]);
+    }
+  }
+  async function handleDelete1Deck(deckId: string) {
+    await deleteDeck(deckId);
+    setDecks(decks.filter((deck) => deck._id !== deckId));
+  }
+
   async function handleCreateDeck(e: React.FormEvent) {
     e.preventDefault();
-    await fetch("http://localhost:3500/decks", {
-      method: "POST",
-      body: JSON.stringify({ title: title }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    const deck = await createDeck(title);
+    setDecks([...decks, deck]);
     setTitle("");
   }
+
   useEffect(() => {
     (async () => {
-      const response = await fetch("http://localhost:3500/decks");
-      const newDecks = await response.json();
-      setDecks(newDecks);
+      const newDecks = getDecks();
+      setDecks(await newDecks);
     })();
+    // }, [handleCreateDeck, handleDeleteDeck]);
   }, []);
 
   return (
     <div className="App">
       <ul className="decks">
         {decks.map((deck) => (
-          <li key={deck._id}>{deck.title}</li>
+          <li key={deck._id}>
+            <button
+              onClick={() => (
+                console.log("deleting"), handleDelete1Deck(deck._id)
+              )}
+            >
+              x
+            </button>
+            <Link to={`decks/${deck._id}`}>{deck.title}</Link>
+          </li>
         ))}
       </ul>
       <form onSubmit={handleCreateDeck}>
@@ -50,6 +67,7 @@ function App() {
         />
         <button>Submit Deck</button>
       </form>
+      <button onClick={handleDeleteDeck}>Delete All Decks</button>
     </div>
   );
 }

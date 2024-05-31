@@ -24,20 +24,31 @@
   gap: 10px;
 }
 .decks li {
+  position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
   width: default;
   border-radius: 10px;
   height: 100px;
-  background: #191919;
+  background: #000000;
   border: solid 1px #000;
   color: aliceblue;
 }
-.decks li:hover {
-  background: #393838;
+.decks li button:hover {
+  background: #14a894;
   cursor: pointer;
 }
+
+.decks li button {
+  position: absolute;
+  font-size: 10px;
+  top: 3px;
+  right: 3px;
+  background-color: brown;
+  color: white;
+}
+
 button {
   border-radius: 8px;
   padding: 10px;

@@ -12,7 +12,7 @@ app.use(express.json());
 
 app.get("/decks", async (req: Request, res: Response) => {
   const decks = await Deck.find();
-  console.log(decks);
+  // console.log(decks);
   res.json(decks);
 });
 
@@ -25,6 +25,20 @@ app.post("/decks", async (req: Request, res: Response) => {
 
   const createdDeck = await newDeck.save();
   res.json(createdDeck);
+});
+app.delete("/decks/:deckId", async (req: Request, res: Response) => {
+  console.log("deleting deck");
+  const deckId = req.params.deckId;
+  const deck = await Deck.findByIdAndDelete(deckId);
+
+  res.json(deck);
+});
+
+app.delete("/decks", async (req: Request, res: Response) => {
+  console.log("deleing all decks");
+
+  const decks = await Deck.deleteMany({});
+  res.json(decks);
 });
 
 // ---//
