@@ -5,6 +5,9 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Deck from "./Deck";
+import { Header } from "./Header";
+import { MantineProvider } from "@mantine/core";
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -20,7 +23,10 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <MantineProvider>
+      <Header />
+      <RouterProvider router={router} />
+    </MantineProvider>
   </React.StrictMode>
 );
 

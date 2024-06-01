@@ -1,11 +1,7 @@
 import React, { useEffect, useState } from "react";
-import "./App.css";
-import { Link, useParams } from "react-router-dom";
-import { deleteDeck } from "./api/deleteDeck";
-import { TDeck, getDecks } from "./api/getDecks";
-import { get } from "http";
-import { createDeck } from "./api/createDeck";
-import { deleteAllDecks } from "./api/deleteAllDecks";
+import "./Deck.css";
+import { useParams } from "react-router-dom";
+import { TDeck } from "./api/getDecks";
 import { createCard } from "./api/createCard";
 import { getDeck } from "./api/getDeck";
 import { deleteCard } from "./api/deleteCard";
@@ -41,7 +37,7 @@ export default function Deck() {
 
   return (
     <div className="App">
-      <ul className="decks">
+      <ul className="cards">
         {cards.map((card, index) => (
           <li key={index}>
             <button
@@ -54,7 +50,7 @@ export default function Deck() {
         ))}
       </ul>
       <form onSubmit={handleCreateDeck}>
-        <label htmlFor="card-text">Card Text</label>
+        <label htmlFor="cards-text">Card Text</label>
         <input
           value={text}
           onChange={(e: React.ChangeEvent) => {
@@ -62,7 +58,7 @@ export default function Deck() {
             //save the value of the input to the mongodb
             console.log((e.target as HTMLInputElement).value);
           }}
-          id="card-text"
+          id="cards-text"
           type="text"
         />
         <button>Create Card</button>
